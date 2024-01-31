@@ -1,4 +1,7 @@
-import { projectArray } from "./projectBoxRender";
+import endEvent from "./endEvents";
+import newFixEvent from "./newFixEvent";
+import { renderAll } from "./pageRenders";
+import { aWMinus, aWPlus, calcWorkers, projectArray, projectBoxRender } from "./projectBoxRender";
 
 export default function renderProjects() {
     let wrapper = document.querySelector('#projectBox');
@@ -10,7 +13,7 @@ export default function renderProjects() {
         eventRow.classList.add('eventRow'); 
 
         let boxOne = document.createElement('div');
-        boxOne.style = 'display:flex; width: 25%; justify-content: start; gap: 1rem; height: 32px;'
+        boxOne.style = 'display:flex; width: 25%; align-items: start; justify-content: start; gap: 1rem; height: 32px;'
 
         let expandBtn = document.createElement('button');
         expandBtn.classList.add('expandBtn');
@@ -40,21 +43,22 @@ export default function renderProjects() {
         let title = document.createElement('div');
         title.textContent = event.name;
         title.classList.add('eventTitle');
-        title.style = "font-size: 15px;"
+        title.style = "font-size: 15px; padding-bottom: 17px;"
         boxOne.appendChild(title);
 
         eventRow.appendChild(boxOne);
 
         let boxTwo = document.createElement('div');
-        boxTwo.style = 'display:flex; width: 25%; justify-content: start; gap: 1rem; height: 32px;'
+        boxTwo.style = 'display:flex; width: 25%; align-items: start; justify-content: start; gap: 1rem; height: 32px;'
 
         let durationBox = document.createElement('div');
         durationBox.classList.add('durationBox');
 
         let durationLabel = document.createElement('div');
+        durationLabel.style = 'align-self: start;'
 
-        if(event.type == 'Active') {
-            durationLabel.textContent = "Productivity:"    
+        if(event.type == 'Active' || event.type == 'building' || event.type == 'Active-Fix') {
+            durationLabel.textContent = "Productivity Remaining:"    
         } else if(event.type == 'Passive') {
             durationLabel.textContent = "Weeks Remaining:"
         } else if(event.type == "Indefinite") {
@@ -63,9 +67,10 @@ export default function renderProjects() {
 
         durationBox.appendChild(durationLabel);
 
-        if(event.type == 'Active' || event.type == "Passive") {
+        if(event.type != 'Indefinite') {
             let durationVal = document.createElement('div');
             durationVal.textContent = event.duration;
+            durationVal.style = 'align-self: start;'
             durationBox.appendChild(durationVal);
         }
 
@@ -73,15 +78,22 @@ export default function renderProjects() {
         eventRow.appendChild(boxTwo);
 
         let boxThree = document.createElement('div');
-        boxThree.style = 'display:flex; width: 25%; justify-content: start; gap: 1rem; height: 32px;'
+        boxThree.style = 'display:flex; width: 25%; align-items: start; justify-content: start; gap: 1rem; height: 32px;'
 
-        if(event.type == 'Active') { 
+        if(event.type == 'Active' || event.type == 'building' || event.type == 'Active-Fix') { 
             let workerBox = document.createElement('div');
             workerBox.classList.add('workerBox');
+
+            let workersAssigned = document.createElement('div');
+            workersAssigned.textContent = 'Workers Assigned:'
+            workerBox.appendChild(workersAssigned);
 
             let removeWorkerBtn = document.createElement('button');
             removeWorkerBtn.classList.add('changeWorkerBtn');
             removeWorkerBtn.textContent = '-';
+            removeWorkerBtn.addEventListener('click', () => {
+                removeWorker(event);
+            })
             workerBox.appendChild(removeWorkerBtn);
 
             let workerValue = document.createElement('div');
@@ -92,6 +104,9 @@ export default function renderProjects() {
             let addWorkerBtn = document.createElement('button');
             addWorkerBtn.classList.add('changeWorkerBtn');
             addWorkerBtn.textContent = '+';
+            addWorkerBtn.addEventListener('click', () => {
+                addWorker(event);
+            })
             workerBox.appendChild(addWorkerBtn);
 
             boxThree.appendChild(workerBox);
@@ -105,13 +120,16 @@ export default function renderProjects() {
             let linkFix = document.createElement('button');
             linkFix.style = "font-size: 12px; margin-left: 10%;"
             linkFix.textContent = "Link Fix Action";
+            linkFix.addEventListener('click', () => {
+                newFixEvent(event.count)
+            })
             boxThree.appendChild(linkFix);
         }
 
         eventRow.appendChild(boxThree);
 
         let boxFour = document.createElement('div');
-        boxFour.style = 'display:flex; width: 25%; justify-content: space-between; gap: 1rem; height: 32px;'
+        boxFour.style = 'display:flex; width: 25%; align-items: start; justify-content: space-between; gap: 1rem;'
 
         let impactBox = document.createElement('div');
         impactBox.classList.add('eventImpactBox');
@@ -139,8 +157,12 @@ export default function renderProjects() {
         endBtn.addEventListener('click', () => {
             let place = event.count;
             let index = projectArray.findIndex((e) => e.count == place);
-            projectArray.splice(index,1);
-            renderProjects();
+            let question = confirm('Are you sure you want to end this event? This should only be done at GM direction.')
+            if(question == true) {
+                endEvent(event);
+                projectArray.splice(index, 1);
+                renderAll();
+            }
         })
         boxFour.appendChild(endBtn);
 
@@ -148,7 +170,7 @@ export default function renderProjects() {
 
         let descriptionBox = document.createElement('div');
         descriptionBox.id = `desc${event.count}`;
-        descriptionBox.style = 'width: 200%; height: 10rem; max-height: 20rem;';
+        descriptionBox.style = 'width: 200%; height: 10rem; max-height: 20rem; margin-bottom: .5rem';
         if(event.hide == true) {
             descriptionBox.classList.add('hidden','descBox');
         }
@@ -160,7 +182,10 @@ export default function renderProjects() {
 
         let details = document.createElement('textarea');
         details.value = event.details;
-        details.style = 'overflow-y: scroll; resize: none; font-size: 15px; width: 98%; height: 80%'
+        details.style = 'overflow-y: scroll; resize: none; font-size: 15px; width: 98%; height: 80%; margin-bottom: .5rem'
+        if(event.type == 'building') {
+            details.readOnly = true;
+        }
         details.addEventListener('change', () => {
             event.details = details.value;
         });
@@ -173,3 +198,23 @@ export default function renderProjects() {
         
     });
 }
+
+function addWorker(proj) {
+    if(calcWorkers() > 0) {
+        proj.workers += 1;
+        aWPlus(1);
+        projectBoxRender();
+        renderProjects();
+    }
+}
+
+function removeWorker(proj) {
+    if(proj.workers > 0) {
+        proj.workers -= 1;
+        aWMinus(1);
+        projectBoxRender();
+        renderProjects();
+    }
+}
+
+

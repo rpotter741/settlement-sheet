@@ -1,5 +1,5 @@
 import { compileEvent } from "./compileEvent";
-import overviewRender from "./overviewRender";
+import { renderAll } from "./pageRenders";
 import { projectBoxRender } from "./projectBoxRender";
 import renderProjects from "./renderProjects";
 import taxRender from "./taxRender";
@@ -8,40 +8,57 @@ let costCount = 0;
 let impactCount = 0;
 
 export default function newEvent() {
-    let wrapper = document.querySelector('#projectManagement');
+    let wrapper = document.querySelector('#contentArea');
     wrapper.innerHTML = "";
-    wrapper.style = "box-sizing: border-box; width: 100%; height: 100%";
+    wrapper.style = "box-sizing: border-box; width: 100%; height: 100%;";
 
     let header = document.createElement('div');
     header.textContent = "New Event";
-    header.style = "display: flex; justify-content: center; align-items: center; background: rgba(200,120,120,.3);";
+    header.classList.add('subHeader');
     wrapper.appendChild(header);
 
+    let nBB = document.createElement('div');
+    nBB.style = 'height: 12.5%; width: 50%; display: flex; justify-content: center; align-items: center;'
+
     let nameBox = document.createElement('div');
-    nameBox.style = "padding: .5rem; background: aliceblue; height: 10%; align-items: center; display: flex;"
+    nameBox.classList.add('flexRow','gap');
+    nameBox.style = 'height: 12.5%; width: 85%; margin-left: 4rem'
+
+    let nameLabel = document.createElement('div');
+    nameLabel.style = 'font-size: 20px; width: 11%'
+    nameLabel.textContent = 'Name:'
+    nameBox.appendChild(nameLabel);
+
     let nameEntry = document.createElement('input');
     nameEntry.type = 'text';
     nameEntry.placeholder = "Event Name";
-    nameEntry.style = "width: 95%;"
+    nameEntry.style = "width: 72.5%; margin-left: .5rem; font-size: 20px;"
     nameEntry.id = "eventName";
     nameBox.appendChild(nameEntry);
-    wrapper.appendChild(nameBox);
+    nBB.appendChild(nameBox);
+    wrapper.appendChild(nBB);
 
     let secondRow = document.createElement('div');
-    secondRow.style = 'display: flex; height: 10%; align-items: center; background: aliceblue'
+    secondRow.classList.add('flexRow','gap',);
+    secondRow.style = 'height: 12.5%'
 
     let bigTypeBox = document.createElement('div');
-    bigTypeBox.style = "display: flex; width: 50%; background: aliceblue"
+    bigTypeBox.style = 'width: 50%; display: flex; justify-content: center; align-items: center;';
+
+    let typeBox2 = document.createElement('div');
+    typeBox2.classList.add('flexRow','gap');
+    typeBox2.style = 'width: 85%; margin-left: 4rem'
+
     let typeHeader = document.createElement('div');
-    typeHeader.style = 'display: flex; justify-content: start; align-items: center; width: 14.5%; font-size: 16px; margin-left: .5rem'
-    typeHeader.textContent = "Type";
-    bigTypeBox.appendChild(typeHeader);
+    typeHeader.style = 'font-size: 20px; width: 11%'
+    typeHeader.textContent = "Type:";
+    typeBox2.appendChild(typeHeader);
 
     let typeBox = document.createElement('div');
-    typeBox.style = "padding: .5rem 0 .5rem .5rem; width: 67%"
+    typeBox.style = "margin-left: .5rem; width: 75%"
 
     let typeSelect = document.createElement('select');
-    typeSelect.style = "width: 100%; font-size: 16px"
+    typeSelect.style = "font-size: 20px; width: 98.75%"
     typeSelect.id = "eventType";
 
     let immediate = document.createElement('option');
@@ -64,18 +81,19 @@ export default function newEvent() {
     indefinite.textContent = "Indefinite";
     typeSelect.appendChild(indefinite);
     typeBox.appendChild(typeSelect);
-    bigTypeBox.appendChild(typeBox);
+    typeBox2.appendChild(typeBox);
+    bigTypeBox.appendChild(typeBox2);
     secondRow.appendChild(bigTypeBox);
 
     let bigTimeBox = document.createElement('div');
-    bigTimeBox.style = 'display: flex; gap: 4px; justify-content: center; align-items: center; padding: .5; width: 50%; box-sizing: border-box; background: aliceblue; padding-left: .5rem'
+    bigTimeBox.classList.add('flexRow','gap','newEventHalfRow2')
     let timeBox = document.createElement('div');
     timeBox.style = 'display: none';
     let timeValBox = document.createElement('div');
     timeValBox.style = 'display: none'
     let timeVal = document.createElement('input');
     timeVal.type = 'number';   
-    timeVal.style = "width: 25%; font-size: 16px;" 
+    timeVal.style = "width: 60%; font-size: 20px; justify-self: start; text-align: center" 
     timeVal.id = "eventTimeVal"
     timeValBox.appendChild(timeVal);
     bigTimeBox.appendChild(timeBox);
@@ -94,7 +112,7 @@ export default function newEvent() {
 
     let componentHeader = document.createElement('div');
     componentHeader.textContent = "Event Costs";
-    componentHeader.style = "display: flex; justify-content: center; align-items: center; font-size: 18px"
+    componentHeader.style = "display: flex; justify-content: center; align-items: center; font-size: 22px"
     leftBox.appendChild(componentHeader);
 
     leftBox.appendChild(createComponent());
@@ -109,7 +127,7 @@ export default function newEvent() {
 
     let impactHeader = document.createElement('div');
     impactHeader.textContent = "Event Changes";
-    impactHeader.style = "display: flex; justify-content: center; align-items: center; font-size: 18px"
+    impactHeader.style = "display: flex; justify-content: center; align-items: center; font-size: 22px"
     rightBox.appendChild(impactHeader);
 
     rightBox.appendChild(createImpact())
@@ -121,7 +139,7 @@ export default function newEvent() {
     dBox.style = "background: aliceblue; padding: .5rem; height: 25.25%;";
 
     let description = document.createElement('textarea')
-    description.style = "height: 100%; width: 100%; font-size: 16px; resize: none; overflow-y: auto;"
+    description.style = " font-size: 18px; resize: none; overflow-y: auto;"
     description.placeholder = "Enter a description for the event";
     description.id = "eventDetails";
     dBox.appendChild(description);
@@ -137,8 +155,7 @@ export default function newEvent() {
     confirmBtn.addEventListener('click', () => {
         compileEvent();
         projectBoxRender();
-        overviewRender();
-        taxRender();
+        renderAll();
     })
 
     let cancelBtn = document.createElement('button');
@@ -160,13 +177,13 @@ export default function newEvent() {
 
         } else if(typeSelect.value == "Active") {
             timeBox.textContent = "Productivity Required:"
-            timeBox.style = 'font-size: 16px; display: flex; justify-content: start; width: 85%'
-            timeValBox.style = "font-size: 16px; display: flex; padding: .15rem; box-sizing: border-box; justify-content: center;";
+            timeBox.style = 'font-size: 20px; display: flex; justify-content: start; width: 50%; margin-left: 2rem'
+            timeValBox.style = "font-size: 20px; display: flex; padding: .15rem; box-sizing: border-box; justify-content: start; width: 50%";
             
         } else if(typeSelect.value == "Passive") {
             timeBox.textContent = "Weeks Remaining:"
-            timeBox.style = 'font-size: 16px; display: flex; justify-content: start; width: 85%'
-            timeValBox.style = "font-size: 16px; display: flex; padding: .15rem; box-sizing: border-box; justify-content: center;";
+            timeBox.style = 'font-size: 20px; display: flex; justify-content: start; width: 50%; margin-left: 2rem'
+            timeValBox.style = "font-size: 20px; display: flex; padding: .15rem; box-sizing: border-box; justify-content: start; width: 50%";
         } 
     })
 }
@@ -178,67 +195,92 @@ function createComponent() {
     compBox.style = "display: flex; flex-direction: column; justify-content: center; align-items: center"
 
     let compRow = document.createElement('div');
-    compRow.style = "display: flex; margin-left: .5rem;";
+    compRow.style = "display: flex; margin-left: 4rem; width: 85%";
 
     let num = document.createElement('input');
     num.type = 'number';
-    num.style = "width: 15%; font-size: 16px; text-align: center"
+    num.style = "width: 11%; font-size: 20px; text-align: center"
     num.classList.add('eventCompVal');
     compRow.appendChild(num); 
 
     let item = document.createElement('select');
-    item.style = "width: 70%; font-size: 16px;"
+    item.style = "width: 75%; font-size: 20px;"
     item.classList.add('eventCompItem')
 
     let selectItem = document.createElement('option');
     selectItem.value = 'none';
-    selectItem.textContent = "Select Component";
+    selectItem.textContent = "-Select Component-";
     item.appendChild(selectItem);
+
+    let surgroup = document.createElement('optgroup');
+    surgroup.label = 'Survival Components';
 
     let food = document.createElement('option');
     food.value = "food";
     food.textContent = "Food";
-    item.appendChild(food);
+    surgroup.appendChild(food);
 
     let supplies = document.createElement('option');
     supplies.value = "supplies";
     supplies.textContent = "Supplies";
-    item.appendChild(supplies);
+    surgroup.appendChild(supplies);
 
     let med = document.createElement('option');
-    med.value = "med";
+    med.value = "medical capacity";
     med.textContent = "Medical Capacity";
-    item.appendChild(med);
+    surgroup.appendChild(med);
+
+    item.appendChild(surgroup);
+
+    let safgroup = document.createElement('optgroup');
+    safgroup.label = 'Safety Components';
 
     let di = document.createElement('option');
-    di.value = "di";
+    di.value = "defensive infrastructure";
     di.textContent = "Defensive Infrastructure";
-    item.appendChild(di);
+    safgroup.appendChild(di);
 
     let intel = document.createElement('option');
-    intel.value = "intel";  
+    intel.value = "intelligence";  
     intel.textContent = "Intelligence";
-    item.appendChild(intel);
+    safgroup.appendChild(intel);
 
     let gar = document.createElement('option');
-    gar.value = "gar";
+    gar.value = "garrison";
     gar.textContent = "Garrison";
-    item.appendChild(gar);
+    safgroup.appendChild(gar);
+
+    item.appendChild(safgroup);
+
+    let egroup = document.createElement('optgroup');
+    egroup.label = 'Economy Components';
 
     let trade = document.createElement('option');
     trade.value = "trade";
     trade.textContent = "Trade";
-    item.appendChild(trade);
+    egroup.appendChild(trade);
 
     let prod = document.createElement('option');
-    prod.value = "prod";
+    prod.value = "productivity";
     prod.textContent = "Productivity";
-    item.appendChild(prod);
+    egroup.appendChild(prod);
+
+    item.appendChild(egroup);
+
+    let mgroup = document.createElement('optgroup');
+    mgroup.label = 'Settlement Components';
 
     let gold = document.createElement('option');
     gold.value = "gold";
     gold.textContent = "Gold";
-    item.appendChild(gold);
+    mgroup.appendChild(gold);
+
+    let health = document.createElement('option');
+    health.value = 'health';
+    health.textContent = 'Health';
+    mgroup.appendChild(health);
+
+    item.appendChild(mgroup);
 
     compRow.appendChild(item);
 
@@ -278,92 +320,112 @@ function createImpact() {
     compBox.style = "display: flex; flex-direction: column; justify-content: center; align-items: center"
 
     let compRow = document.createElement('div');
-    compRow.style = "display: flex; margin-left: .5rem;";
+    compRow.style = "display: flex; margin-left: .5rem; width:85%";
 
     let num = document.createElement('input');
     num.type = 'number';
-    num.style = "width: 15%; font-size: 16px; text-align: center"
+    num.style = "width: 15%; font-size: 20px; text-align: center"
     num.classList.add('eventImpactVal');
     compRow.appendChild(num); 
 
     let item = document.createElement('select');
-    item.style = "width: 70%; font-size: 16px;"
+    item.style = "width: 70%; font-size: 20px;"
     item.classList.add('eventImpactItem');
 
     let selectItem = document.createElement('option');
     selectItem.value = 'none';
-    selectItem.textContent = "Select Component";
+    selectItem.textContent = "-Select Component-";
     item.appendChild(selectItem);
 
+    let surgroup = document.createElement('optgroup')
+    surgroup.label = 'Survival Components'
+
     let survival = document.createElement('option');
-    survival.value = "survival";
+    survival.value = "survival bonus";
     survival.textContent = "Survival Mod";
-    item.appendChild(survival);
+    surgroup.appendChild(survival);
 
     let food = document.createElement('option');
-    food.value = "food";
+    food.value = "food bonus";
     food.textContent = "Food Mod";
-    item.appendChild(food);
+    surgroup.appendChild(food);
 
     let supplies = document.createElement('option');
-    supplies.value = "supplies";
+    supplies.value = "supplies bonus";
     supplies.textContent = "Supplies Mod";
-    item.appendChild(supplies);
+    surgroup.appendChild(supplies);
 
     let med = document.createElement('option');
-    med.value = "med";
+    med.value = "medical capacity bonus";
     med.textContent = "Medical Capacity Mod";
-    item.appendChild(med);
+    surgroup.appendChild(med);
+
+    item.appendChild(surgroup);
+
+    let safgroup = document.createElement('optgroup');
+    safgroup.label = 'Safety Components';
 
     let safety = document.createElement('option');
-    safety.value = "safety";
+    safety.value = "safety bonus";
     safety.textContent = "Safety Mod";
-    item.appendChild(safety);
+    safgroup.appendChild(safety);
 
     let di = document.createElement('option');
-    di.value = "di";
+    di.value = "defensive infrastructure bonus";
     di.textContent = "Defensive Infrastructure Mod";
-    item.appendChild(di);
+    safgroup.appendChild(di);
 
     let intel = document.createElement('option');
-    intel.value = "intel";  
+    intel.value = "intelligence bonus";  
     intel.textContent = "Intelligence Mod";
-    item.appendChild(intel);
+    safgroup.appendChild(intel);
 
     let gar = document.createElement('option');
-    gar.value = "gar";
+    gar.value = "garrison bonus";
     gar.textContent = "Garrison Mod";
-    item.appendChild(gar);
+    safgroup.appendChild(gar);
+
+    item.appendChild(safgroup);
+
+    let egroup = document.createElement('optgroup');
+    egroup.label = 'Economy Components'
 
     let economy = document.createElement('option');
-    economy.value = "economy";
+    economy.value = "economy bonus";
     economy.textContent = "Economy Mod";
-    item.appendChild(economy);
+    egroup.appendChild(economy);
 
     let trade = document.createElement('option');
-    trade.value = "trade";
+    trade.value = "trade bonus";
     trade.textContent = "Trade Mod";
-    item.appendChild(trade);
+    egroup.appendChild(trade);
 
     let prod = document.createElement('option');
-    prod.value = "prod";
+    prod.value = "productivity bonus";
     prod.textContent = "Productivity Mod";
-    item.appendChild(prod);
+    egroup.appendChild(prod);
+
+    item.appendChild(egroup);
+
+    let sgroup = document.createElement('optgroup');
+    sgroup.label = 'Settlement Components';
 
     let maxHealth = document.createElement('option');
-    maxHealth.value = "maxHealth";
+    maxHealth.value = "maximum health";
     maxHealth.textContent = "Max Health";
-    item.appendChild(maxHealth);
+    sgroup.appendChild(maxHealth);
 
     let level = document.createElement('option');
     level.value = "level";
     level.textContent = "Level";
-    item.appendChild(level);
+    sgroup.appendChild(level);
 
     let sp = document.createElement('option');
-    sp.value = "sp";
+    sp.value = "settlement points";
     sp.textContent = "Settlement Points";
-    item.appendChild(sp);
+    sgroup.appendChild(sp);
+
+    item.appendChild(sgroup);
 
     compRow.appendChild(item);
 

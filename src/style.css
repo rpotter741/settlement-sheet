@@ -6,6 +6,108 @@
 * {
     font-family: 'fantasy';
     font-size: 16px;
+    
+}
+
+.body {
+    position: relative;
+}
+
+textarea {
+    width: 97.75%;
+    height: 89.5%;
+    margin: 1rem;
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;         
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.flexRow {
+    display: flex;
+    align-items: center;
+}
+
+.flexCol {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.text-center {
+    text-align: center;
+    width: 100%;
+}
+
+
+.gap {
+    gap: .33rem;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.box1 {
+    margin: 0 1rem 1rem 1rem;
+    padding: .5rem;
+    height: 90px;
+    background: aliceblue;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem black;
+}
+
+.box1a {
+    margin: 0 1rem 1rem 1rem;
+    padding: .5rem;
+    height: 120px;
+    background: aliceblue;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem black;
+    justify-content: center;
+}
+
+.box2 {
+    margin: 0 1rem 1rem 1rem;
+    background: aliceblue;
+    height: 500px;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem black;
+}
+
+.box3 {
+    margin: 0 1rem 1rem 1rem;
+    background: aliceblue;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem black;
+}
+
+.box4 {
+    width: 11.111%;
+}
+
+#contentBox {
+    grid-column: 3/4;
+    grid-row: 1/-1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 1rem 1rem 1rem;
+    background: aliceblue;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem black;
+    justify-content: start;
+}
+
+
+#currentHealth {
+    width: 15%;
+    background: none;
+    border: none;
 }
 
 button {
@@ -13,324 +115,455 @@ button {
 }
 
 #settlementName {
-    font-size: 40px;
+    font-size: 24px;
     border: none;
+    background: none;
+    text-align: center;
+    width: 85%
 }
 
-.component {
-    margin-left: 1rem;
-    width: 40%;
+#settlementName::placeholder {
+    background: rgba(25,25,200,.3)
 }
 
-.compScore {
+.valBall {
     display: flex;
-    width: 20%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    background: rgba(200,200,230,1);
+    border: 1px solid black;
+    height: 35px;
+    width: 35px;
+}
+
+.header {
+    height: 10%;
+    font-size: 22px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    background: rgba(200,200,230,.5);
+    padding: .5rem;
+    border-radius: .5rem;
 }
 
-.SPBuyBtn {
-    border-radius: 1rem;
-    height: 22px;
-    font-size: 11px;
-    font-weight: 700;
-    margin-left: .2rem
-}
-
-.scoreBox {
-    display: flex;
-    justify-content: space-around;
-}
-
-#surBox>div, #safBox>div, #econBox>div {
-    margin-top: .25rem;
-}
-
-#surBox, #safBox, #econBox {
-    padding: 1rem;
-    height: 27%
-}
-
-#surBox {
-    background-color: rgba(200,25,25,.3);
-}
-
-#safBox {
-    background-color: rgba(25,25,200,.3);
-}
-
-#econBox {
-    background-color: rgba(25,200,25,.3);
-}
-
-.taxRow {
-    box-sizing: border-box;
-    padding-left: .5rem;
+.subHeader {
+    height: 5%;
+    font-size: 22px;
     display: flex;
     align-items: center;
-    height: 47.325px;
+    justify-content: center;
+    background: rgba(200,200,230,.5);
+    padding: .5rem;
 }
 
-#taxBox {
-    height: 100%;
-    max-height: 100%;
-    border-bottom: 2px solid black;
-}
+/*//////////////////Tax Styling///////////////////////////*/
 
-#taxBox>div{
-    border: 1px solid black;
+.taxRow {
+    display: flex;
     height: 10%;
 }
 
-#taxBox>div>div {
-    font-size: 15px;
-}
-
-#taxBox>div>div>div {
-    font-size: 15px;
-}
-.taxLabel {
-    padding: .5rem 0;    
-    display: flex;
-    width: 50%;    
-}
-
-.taxValue {
-    padding: .5rem 0;
-    display: flex;
+.taxLabel, .taxValue {
     width: 50%;
-    justify-content: space-between;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.taxLabel {
+    justify-content: start;
+    padding-left: 1rem;
+    box-sizing: border-box;
 }
 
 .taxChngBtn {
-    width: 25%;
-    font-size: 16px;
+    border: none;
+    background: none;
 }
+
+/*//////////////////////Shop Styling////////////////////////////////////*/
 
 #buySell {
     display: flex;
-    justify-content: space-around;
+    height: 10%;
 }
 
 #buyMode, #sellMode {
-    border: none;
-    background: white;
     width: 50%;
-    height: 47.3px;
+    border: none;
 }
 
-#buyMode.buybuy {
-    background: rgba(25,200,25,.3);
-    color: rgba(0,100,0);
+#buyMode {
+    border-right: 1px solid black;
 }
 
-#buyMode.buysell {
-    background: rgba(50,50,50,.3);
-    color: rgba(0,100,0,.5);
-}
-
-#sellMode.sellbuy {
-    background: rgba(50,50,50,.3);
-    color: rgba(100,0,0,.5);
-}
-
-#sellMode.sellsell {
-    background: rgba(200,25,25,.3);
-    color: rgba(100,0,0,1)
-}
-
-#shopWrapper.buy {
-    background: rgba(25,200,25,.1)
-}
-
-#shopWrapper.sell {
-    background: rgba(200,25,25,.1)
-}
-
-#buyBox {
-    max-height: 100%;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
-}
-
-#buyBox>div {
-    box-sizing: border-box;
-
+#sellMode {
+    border-left: 1px solid black;
 }
 
 .shopRow {
     display: flex;
-    justify-content: start;
-    box-sizing: border-box;
-    height: 43.4px;
-    border: 6px solid rgba(255,219,152);
-
+    height: 45px
 }
 
 .shopLabel {
-    font-size: 16px;
     width: 50%;
-    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 
 .bsBox {
+    width: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 50%;
-    gap: .5rem;
-    box-sizing: border-box;
-    
-}
-
-.bsBox>div {
-    font-size: 16px;
+    align-items: center
 }
 
 .shopBtn {
-    background: none;
     border: none;
-    font-size: 16px;
+    background: none;
 }
 
 .bsRow {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    height: 47.325px;
-    border-top: 4px solid rgba(255,219,152);
-    border-bottom: 4px solid rgba(255,219,152);
+    display: flex;
+    height: 12.5%;
 }
 
-.bsRow>div {
-    font-size: 16px;
+.buybuy {
+    background: rgba(20,120,20,.2);
+    color: rgba(0,80,0,1);
 }
 
-#projectManagement {
-    max-height: 100%;
+#buyMode.buysell {
+    background: rgba(100,100,100,.3);
+    color: rgba(20,180,20,.5);
     border-bottom: 2px solid black;
 }
 
-#shopCXBtn {
-    font-size: 16px;
-    width: 25%;
-    height: 100%;
+#sellMode.sellbuy {
+    background: rgba(100,100,100,.3);
+    color: rgba(180,20,20,.5);
+    border-bottom: 2px solid black;
 }
 
-#prodAvailBox {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
+.sellsell {
+    background: rgba(180,20,20,.2);
+    color: rgba(80,0,0,1);
 }
 
-#prodAvailBox>div {
-    font-size: 18px
+.buy {
+    background: rgba(20,120,20,.05);
 }
+
+.sell {
+    background: rgba(180,20,20,.05);
+}
+
+#tradeValue {
+    border: 6px solid lavender;
+    width: 40%;
+    height: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 22px; 
+    box-sizing: border-box; 
+}
+
+#tradeValue.buy {
+    background: rgba(20,120,20,.2);
+}
+
+#tradeValue.sell {
+    background: rgba(180,20,20,.2);
+}
+
+/*///////////////////////CONTENT BOX STYLING//////////////////////////*/
+
+.contentBtn {
+    padding-top: 2rem;
+}
+
+.contentBtn1 {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 1rem; 
+    border-right: 1px solid black
+}
+
+.contentBtn2 {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 1rem; 
+}
+
+/*//////////////////PROJECT STYLING/////////////////////*/
 
 #newProjBtn {
-    font-size: 16px;
-    width: 50%;
+    border-radius: .5rem;
 }
 
 #projectBox {
-    padding: .25rem;
-    overflow-y: auto;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin: 0rem 1rem 1rem 1rem;
+    height: 82%;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    background: rgba(211,211,211,.3)
+}
+
+#projectBox::-webkit-scrollbar {
+    display: none;
 }
 
 .eventRow {
+    padding: .5rem 1rem;
+    margin: .5rem 1rem;
+    border-radius: 1rem;
     display: flex;
+    align-items: start;
     flex-wrap: wrap;
-    border: 1px solid rgba(255,165,0,.5);
-    border-radius: .5rem;
-    margin: .5rem 0;
-    padding: .2rem .2rem 0 .2rem;
-    align-items: flex-start;
+    box-sizing: border-box;
+    border: 1px solid rgba(230,160,100,1);
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    background: aliceblue;
 }
 
 .expandBtn {
-    font-size: 21px;
-    border: none;
     background: none;
-    width: 5%;
-}
-
-.eventTitle {
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    border: none;
 }
 
 .durationBox {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: .5rem;
-       
-}
-
-.durationBox>div {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 14px;
+    gap: 1rem;
+    align-items: start;
+    justify-content: start;
 }
 
 .workerBox {
     display: flex;
-    margin-left: 10%;
-    height: 100%;
-    align-items: center;
     justify-content: center;
-    gap: .5rem;
-
+    align-items: start;
 }
 
 .changeWorkerBtn {
-    height: 20px;
-    font-size: 14px;
-    border: none;
     background: none;
-}
-
-.workerBox>div {
-    font-size: 14px;
+    border: none;
 }
 
 .eventImpactBox {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-.eventImpactBox>div>div {
-    font-size: 14px;
-    overflow-x: hidden;
+    justify-content: start;
 }
 
 .endBtn {
-    height: 25px;
-    font-size: 14px;
-    border-radius: 1rem;
+    border: none;
+    background: none;
 }
 
 .descBox {
     display: block;
-    flex-direction: column;
-    
 }
 
 .descBox.hidden {
     display: none;
 }
 
-#taxBox, #buyBox, #projectManagement {
-    height: 452px;
+/*///////////////NEW EVENT STYLING///////////////////*/
+
+.newEventHalfRow {
+    width: calc(50% - 4rem);
+    margin-left: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
 }
+
+.newEventHalfRow2 {
+    width: calc(50% - 4rem);
+    margin-left: 2rem;
+    display: flex;
+
+    
+}
+
+/*//////////////////////////BLDG STYLING///////////////////////*/
+
+.fail {
+    color: red;
+}
+
+
+/*///////////////////////UPGRADE STYLING///////////////////////*/
+.upgBtn {
+    border-radius: 1rem;
+    padding: .5rem 1rem;
+}
+
+/*//////////////////// WEEK STYLING/////////////////*/
+#log>div {
+    width: 100%
+}
+
+.eventStartRow {
+        padding: .5rem 1rem;
+        border-radius: 1rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: calc(100% -2rem);
+        box-sizing: border-box;
+        border: 1px solid rgba(100,100,130,1);
+        align-items: start;
+        justify-content: start;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+        background: aliceblue;
+        margin-bottom: 1rem;
+    }
+
+
+    /*/////////////TROOP STYLING ///////////////*/
+
+.troopDisplayBox {
+    background-size: contain ;
+    background-repeat: no-repeat;
+    overflow: scroll;
+    height: 1000px;
+    scrollbar-width: none;
+    position: relative;
+    margin: 1rem;
+}
+
+#militiaInfantry {
+    background-image: url('./militia_infantry-1706207528.png');
+
+}
+
+#militiaArchers {
+    background-image: url('./militia_archers-1706210077.png');
+
+}
+
+#militiaPikemen {
+    background-image: url('./militia_pikemen-1706216953.png');
+
+}
+
+#militiaCavalry {
+    background-image: url('./militia_cavalry-1706216960.png');
+
+}
+
+#guardInfantry {
+    background-image: url('./guard_infantry-1706642232.png')
+}
+
+#guardArchers {
+    background-image: url('./guard_archers-1706643899.png')
+}
+
+#guardSpearmen {
+    background-image: url('./guard_spearmen-1706642492.png');
+}
+
+#guardCavalry {
+    background-image: url('./guard_cavalry-1706642216.png')
+}
+
+#soldiers {
+    background-image: url('./soldiers-1706642896.png');
+}
+
+#longbowmen {
+    background-image: url('./longbowmen-1706643607.png');
+}
+
+/*/////////////////GLOSSARY STYLING///////////////*/
+#glossary {
+    position: absolute;
+    z-index: 1;
+    top: 2rem;
+    left: 3rem;
+    height: 72.5rem;
+    width: 50rem;
+    background-color: aliceblue;
+    border-radius: .5rem;
+    box-shadow: 0 0 2rem black;
+   
+}
+
+.troopRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    place-items: center;
+    margin-bottom: 1rem;
+}
+
+/*/////////////////RATING BOX////////////////*/
+.rateRow {
+    display: grid;
+    grid-template-columns: 1.6fr .75fr 3fr;
+    margin-top: 1rem;
+    padding-left: 1rem;
+}
+
+
+.intelOff {
+    background-image: url('./sword-cross.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.intelDef {
+        background-image: url('./shield.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+    }
+
+
+    /*//////////////TOOLTIP STYLING///////////////////////*/
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        
+      }
+      
+      /* Tooltip text */
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+       
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+      }
+      
+      /* Show the tooltip text when you mouse over the tooltip container */
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        top: 18px;
+        right: 105%;
+        transition-delay: .33s;
+      }

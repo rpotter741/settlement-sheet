@@ -1,15 +1,19 @@
 import { economyBonus, prodBonus, prodCurrent, tradeBonus, tradeCurrent } from "./economyStats";
 import { projectArray } from "./projectBoxRender";
 import { diBonus, diCurrent, garBonus, garCurrent, intelBonus, intelCurrent, safetyBonus } from "./safetyStats";
-import { levelUp, maxHealth, settlementPoints, vaultAdd } from "./settlementStats";
+import { health, levelUp, maxHealth, settlement, settlementPoints, vaultAdd } from "./settlementStats";
 import { foodBonus, foodCurrent, medBonus, medCurrent, supBonus, supCurrent, survivalBonus } from "./survivalStats";
 import { changeLog } from "./weekLog";
 
 
 let count = 0;
 
-function compileEvent() {
-    let proj = [];
+function setCount(data) {
+    count = data
+}
+
+function compileEvent(parent) {
+    let proj = {};
     let compVals = [];
     let compItems = [];
     let impactVals = [];
@@ -37,13 +41,24 @@ function compileEvent() {
 
     proj.duration = document.querySelector('#eventTimeVal').value;
 
+    proj.totalDuration = document.querySelector('#eventTimeVal').value;
+
     proj.name = document.querySelector('#eventName').value;
 
     proj.type = document.querySelector('#eventType').value;
 
+    if(proj.type == 'Active-Fix') {
+        proj.parent = projectArray[parent].count;
+        projectArray[parent].hasLink = true;
+    }
+
     proj.details = document.querySelector('#eventDetails').value;
 
     proj.count = count;
+
+    proj.start = settlement.weeksPassed;
+
+    proj.end = -1;
 
     proj.workers = 0;
 
@@ -79,8 +94,10 @@ function compileEvent() {
         calcCost(proj.costVals[i],proj.costItems[i]);
     }
 
-    if(proj.type != 'Immediate') {
+    if(proj.type == 'Active' || proj.type == 'Passive' || proj.type == 'Indefinite') {
         projectArray.push(proj);
+    } else if(proj.type == 'Active-Fix') {
+        projectArray.splice(parent+1,0,proj)
     }
 
     countUp();
@@ -90,8 +107,6 @@ function compileEvent() {
     if(proj.type == 'Immediate') {
         changeLog.eventEnd.push(proj);
     }
-
-    console.log(changeLog);
 
 }
 
@@ -111,26 +126,30 @@ function calcCost(i, item) {
         case 'supplies':
             supCurrent(i);
             break;
-        case 'med': 
+        case 'medical capacity': 
             medCurrent(i);
             break;
-        case 'di':
+        case 'defensive infrastructure':
             diCurrent(i);
             break;
-        case 'intel':
+        case 'intelligence':
             intelCurrent(i);
             break;
-        case 'gar':
+        case 'garrison':
             garCurrent(i);
             break;
         case 'trade':
             tradeCurrent(i);
             break;
-        case 'prod':
+        case 'productivity':
             prodCurrent(i);
             break;
         case 'gold':
             vaultAdd(i);
+            break;
+        case 'health':
+            health(i);
+            break;
         default:
             break;
             
@@ -144,46 +163,47 @@ function calcPain(i, item) {
     }
 
     switch(item) {
-        case 'food':
+        case 'food bonus':
             foodBonus(i);
             break;
-        case 'supplies':
+        case 'supplies bonus':
             supBonus(i);
             break;
-        case 'med':
+        case 'medical capacity bonus':
             medBonus(i);
             break;
-        case 'di':
+        case 'defensive infrastructure bonus':
             diBonus(i);
             break;
-        case 'intel':
+        case 'intelligence bonus':
             intelBonus(i);
             break;
-        case 'gar':
+        case 'garrison bonus':
             garBonus(i);
             break;
-        case 'trade':
+        case 'trade bonus':
             tradeBonus(i);
             break;
-        case 'prod':
+        case 'productivity bonus':
             prodBonus(i);
             break;
-        case 'survival': 
+        case 'survival bonus': 
             survivalBonus(i);
             break;
-        case 'safety':
+        case 'safety bonus':
             safetyBonus(i);
             break;
-        case 'economy':
+        case 'economy bonus':
             economyBonus(i);
             break;
-        case 'maxHealth':
+        case 'maximum health':
             maxHealth(i);
+            health(i);
             break;
         case "level":
             levelUp(i);
             break;
-        case "sp":
+        case "settlement points":
             settlementPoints(i);
             break;
         default: 
@@ -193,4 +213,4 @@ function calcPain(i, item) {
 
 }
 
-export {compileEvent, countUp}
+export { calcCost, calcPain, compileEvent, count, countUp, setCount}

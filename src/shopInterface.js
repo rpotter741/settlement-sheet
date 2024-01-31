@@ -1,5 +1,5 @@
 import { economy, prodCurrent, tradeCurrent } from "./economyStats";
-import overviewRender from "./overviewRender";
+import { renderAll } from "./pageRenders";
 import { garCurrent, intelCurrent, safety } from "./safetyStats";
 import { settlement, vaultAdd } from "./settlementStats";
 import { shopStatus } from "./shopWindow";
@@ -47,7 +47,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.food > 0) {
                     survival.foodC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.food--
                     shoppingList.value -= foodProfit();
                     shopInterface();
@@ -68,7 +68,7 @@ function shopInterface() {
                     survival.foodC--;
                     shoppingList.food++;
                     shoppingList.value += foodProfit();
-                    overviewRender();
+                    renderAll();
                     shopInterface();
 
                 }
@@ -116,7 +116,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.sup > 0) {
                     survival.supC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.sup--
                     shoppingList.value -= supProfit();
                     shopInterface();
@@ -135,7 +135,7 @@ function shopInterface() {
                 } else {
                     if(survival.supC > 0) {
                         survival.supC--;
-                        overviewRender();
+                        renderAll();
                         shoppingList.sup++
                         shoppingList.value += supProfit();
                         shopInterface();
@@ -185,7 +185,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.med > 0) {
                     survival.medC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.med--
                     shoppingList.value -= medProfit()
                     shopInterface();
@@ -204,7 +204,7 @@ function shopInterface() {
                 } else {
                     if(survival.medC > 0) {
                         survival.medC--;
-                        overviewRender();
+                        renderAll();
                         shoppingList.med++;
                         shoppingList.value += medProfit();
                         shopInterface();
@@ -254,7 +254,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.scout > 0) {
                     safety.intelC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.scout--
                     shoppingList.value -= scoutProfit();
                     shopInterface();
@@ -273,7 +273,7 @@ function shopInterface() {
                 } else {
                     if(safety.intelC > 0) {
                         safety.intelC--;
-                        overviewRender();
+                        renderAll();
                         shoppingList.scout++;
                         shoppingList.value += scoutProfit();
                         shopInterface();
@@ -323,7 +323,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.gar > 0) {
                     safety.garC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.gar--
                     shoppingList.value -= garProfit();
                     shopInterface();
@@ -342,7 +342,7 @@ function shopInterface() {
                 } else {
                     if(safety.garC > 0) {
                         safety.garC--;
-                        overviewRender();
+                        renderAll();
                         shoppingList.gar++;
                         shoppingList.value += garProfit();
                         shopInterface();
@@ -392,7 +392,7 @@ function shopInterface() {
             } else {
                 if(shoppingList.wagon > 0) {
                     economy.tradeC++;
-                    overviewRender();
+                    renderAll();
                     shoppingList.wagon--
                     shoppingList.value -= wagonProfit();
                     shopInterface();
@@ -411,7 +411,7 @@ function shopInterface() {
             } else {
                 if(economy.tradeC > 0) {
                     economy.tradeC--;
-                    overviewRender();
+                    renderAll();
                     shoppingList.wagon++;
                     shoppingList.value += wagonProfit();
                     shopInterface();
@@ -462,7 +462,7 @@ function shopInterface() {
         } else {
             if(shoppingList.tools > 0) {
                 economy.prodC++;
-                overviewRender();
+                renderAll();
                 shoppingList.tools--;
                 shoppingList.value -= toolsProfit();
                 shopInterface();
@@ -481,7 +481,7 @@ function shopInterface() {
             } else {
                 if(economy.prodC > 0) {
                     economy.prodC--;
-                    overviewRender();
+                    renderAll();
                     shoppingList.tools++;
                     shoppingList.value += toolsProfit();
                     shopInterface();
@@ -499,23 +499,29 @@ function shopInterface() {
 
 ////////BUY SELL INTERFACE////////
     let bsRow = document.createElement('div');
-    bsRow.classList.add('bsRow');
+    bsRow.classList.add('bsRow','subHeader','center');
 
     let cxBtn = document.createElement('button');
+    cxBtn.style = 'width: 20%; margin: 1rem; border-radius: .5rem; text-align: center; font-size: 15px'
     cxBtn.id = 'shopCXBtn';
-    cxBtn.textContent ="Clear List";
+    cxBtn.textContent ="Clear";
     cxBtn.addEventListener('click', () => {
         cancelTrade();
     })
     bsRow.appendChild(cxBtn);
 
     let tradeValue = document.createElement('div');
+    tradeValue.id = 'tradeValue';
+    if(shopStatus == 0) {
+        tradeValue.classList.add('buy');
+    } else if(shopStatus ==1) {
+        tradeValue.classList.add('sell');
+    }
     tradeValue.textContent = shoppingList.value;
-    tradeValue.style = "border: 6px solid rgba(255,219,152); width: 50%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 22px; box-sizing: border-box; background: white"
     bsRow.appendChild(tradeValue);
 
     let buysellBtn = document.createElement('button');
-    buysellBtn.style = 'height: 100%; width: 25%;'
+    buysellBtn.style = 'height: 100%; width: 20%; margin: 1rem; border-radius: .5rem; font-size: 15px'
     if(shopStatus == 0) {
         buysellBtn.textContent = "Buy";
     } else {
@@ -559,14 +565,14 @@ function shopInterface() {
             prodCurrent(shoppingList.tools);
             vaultAdd(-shoppingList.value);
             zeroList();
-            overviewRender();
+            renderAll();
             taxRender();
             shopInterface();
         } else {
             if(shopStatus == 1) {
                 vaultAdd(shoppingList.value);
                 zeroList();
-                overviewRender();
+                renderAll();
                 taxRender();
                 shopInterface();
             }
@@ -593,9 +599,9 @@ function shopInterface() {
             safety.garC += shoppingList.gar;
             economy.tradeC += shoppingList.wagon;
             economy.prodC += shoppingList.tools;
-        }
+        }         
         zeroList();
-        overviewRender();
+        renderAll();
     }
     
     function foodCost() {

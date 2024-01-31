@@ -1,4 +1,4 @@
-import overviewRender from "./overviewRender";
+
 import { settlement } from "./settlementStats";
 import { clearList, shopInterface } from "./shopInterface";
 import { survival } from "./survivalStats";
@@ -6,11 +6,11 @@ import { survival } from "./survivalStats";
 function shopWindow() {
     let wrapper = document.querySelector('#buyBox');
     wrapper.id = 'buyBox'
-    wrapper.style = "width: 50%;";
 
     let header = document.createElement('div');
     header.textContent = "Management Shop";
-    header.style = "display: flex; justify-content: center; align-items: center; height: 10%; background: gray; font-size: 22px;"
+    header.classList.add('header');
+    header.style = 'border-radius: .5rem .5rem 0 0'
     wrapper.appendChild(header);
 
 ////////BUY/SELL SWITCHER////////
@@ -34,11 +34,13 @@ buy.addEventListener('click', () => {
     buy.classList.remove('buysell');
     sell.classList.remove('sellsell');
     sell.classList.add("sellbuy");
-    shopWrapper.classList.remove('sell');
-    shopWrapper.classList.add('buy');
     clearList();
     shopStatus = 0;
     shopInterface();
+    document.querySelector('#tradeValue').classList.remove('sell');
+    document.querySelector('#tradeValue').classList.add('buy');
+    shopWrapper.classList.add('buy');
+    shopWrapper.classList.remove('sell');
     
 
 })
@@ -48,11 +50,13 @@ sell.addEventListener('click', () => {
     sell.classList.remove('sellbuy');
     buy.classList.remove('buybuy');
     buy.classList.add('buysell');
-    shopWrapper.classList.add('sell');
-    shopWrapper.classList.remove('buy');
     clearList();
     shopStatus = 1;
     shopInterface();
+    document.querySelector('#tradeValue').classList.add('sell');
+    document.querySelector('#tradeValue').classList.remove('buy');
+    shopWrapper.classList.remove('buy');
+    shopWrapper.classList.add('sell');
     
 })
 
@@ -64,9 +68,11 @@ wrapper.appendChild(buySell);
 let shopWrapper = document.createElement('div');
 shopWrapper.id = 'shopWrapper'
 shopWrapper.classList.add('buy');
+
 wrapper.appendChild(shopWrapper);
 
 shopInterface();
+document.querySelector('#tradeValue').classList.add('buy');
 
 }
 

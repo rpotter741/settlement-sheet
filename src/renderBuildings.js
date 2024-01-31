@@ -1,47 +1,78 @@
 import { buildings } from "./buildingsStats";
 import renderUpgrades from "./renderUpgrades";
+import showUpgrade from "./showBldgUpgrade";
 
 
 
  function renderBuildings() {
-    let wrapper = document.querySelector('#buildingUpgrades'); 
+    let wrapper = document.querySelector('#contentArea'); 
     wrapper.innerHTML = '';
-    wrapper.style = 'border-right: 2px solid black'
-
-    let headerBox = document.createElement('div');
-    headerBox.style = 'display: flex; background: gray; align-items: center';
-
-    let spacer = document.createElement('div');
-    spacer.style = "width: 40%";
-    headerBox.appendChild(spacer);
 
     let header = document.createElement('div');
-    header.style = 'display: flex; align-items: center; justify-content: center; height: 9.0909%; width: 100%; background: gray; font-size: 22px';
+    header.classList.add('subHeader');
     header.textContent = "Building Management";
-    headerBox.appendChild(header);
+    wrapper.appendChild(header);
 
-    let upgrades = document.createElement('button');
-    upgrades.style = 'width: 40%; background: rgba(240,240,255,.6); border-radius: 1rem; font-size: 14px; margin-right: .5rem'
-    upgrades.textContent = "Upgrades"
-    upgrades.addEventListener('click', () => {
-        renderUpgrades();
-    })
-    headerBox.appendChild(upgrades);
+    if(buildings[2].level >= 3 || buildings[3].level >= 1 || buildings[4].level >= 1 || buildings[5].level >= 3 || buildings[8].level >= 3) {
+        let bldgActionHeader = document.createElement('div');
+        bldgActionHeader.textContent = 'Building Actions';
+        bldgActionHeader.classList.add('text-center');
+        wrapper.appendChild(bldgActionHeader);
 
-    wrapper.appendChild(headerBox);
+        let actionBox = document.createElement('div');
+        actionBox.classList.add('flexRow','center','gap')
+
+        if(buildings[2].level >= 3) {
+            let isrBtn = document.createElement('button');
+            isrBtn.style = 'width: 8rem;'
+            isrBtn.textContent = 'Active ISR';
+            actionBox.appendChild(isrBtn);
+        }
+
+        if(buildings[3].level >= 1) {
+            let feedBtn = document.createElement('button');
+            feedBtn.style = 'width: 8rem';
+            feedBtn.textContent = 'Feed Troops';
+            actionBox.appendChild(feedBtn);
+        }
+
+        if(buildings[4].level >= 1) {
+            let harvestBtn = document.createElement('button');
+            harvestBtn.style = 'width: 8rem';
+            harvestBtn.textContent = 'Harvest';
+            actionBox.appendChild(harvestBtn);
+        }
+
+        if(buildings[5].level >= 3) {
+            let firesaleBtn = document.createElement('button');
+            firesaleBtn.style = 'width: 8rem';
+            firesaleBtn.textContent = 'Firesale';
+            actionBox.appendChild(firesaleBtn);
+        }
+
+        if(buildings[8].level >= 3) {
+            let triageBtn = document.createElement('button');
+            triageBtn.style = 'width: 8rem';
+            triageBtn.textContent = 'Triage';
+            actionBox.appendChild(triageBtn);
+        }
+
+        wrapper.appendChild(actionBox);
+
+    }
 
 
     buildings.forEach((bldg) => {
         let row = document.createElement('div');
-        row.style = 'display: flex; align-items: center; height: 9.0909%'
+        row.style = 'display: flex; align-items: center; height: 8.333%; padding: 0 1rem;'
 
         let title = document.createElement('div');
         title.textContent = bldg.name;
-        title.style = 'font-size: 15px; width: 22%; padding-left: .5rem; box-sizing: border-box'
+        title.style = 'font-size: 18px; width: 15%; padding-left: .5rem; box-sizing: border-box'
         row.appendChild(title);
 
         let buttonRow = document.createElement('div');
-        buttonRow.style = 'width: 20%; display: flex; justify-content: space-evenly'
+        buttonRow.style = 'width: 8%; display: flex; justify-content: space-evenly'
 
         let button0 = document.createElement('button')
         button0.textContent = "0";
@@ -70,35 +101,61 @@ import renderUpgrades from "./renderUpgrades";
 
         let statusArea = document.createElement('div');
         statusArea.textContent = bldg.status;
-        statusArea.style = 'font-size: 15px'
+        statusArea.style = 'font-size: 15px; margin-left: 2rem;'
         row.appendChild(statusArea);
 
         switch(bldg.level) {
             case 0: 
                 button0.style = 'background: green';
                 break;
-            case .5: 
+            case .5:
+                button0.style = 'background: gray';
                 button1.style = 'background: yellow';
                 break;
             case 1:
+                button0.style = 'background: gray';
                 button1.style = 'background: green';
                 break;
             case 1.5: 
+                button0.style = 'background: gray';
+                button1.style = 'background: gray';
                 button2.style = 'background: yellow';
                 break;
             case 2: 
+                button0.style = 'background: gray';
+                button1.style = 'background: gray';
                 button2.style = 'background: green';
                 break;
             case 2.5: 
+                button0.style = 'background: gray';
+                button1.style = 'background: gray';
+                button2.style = 'background: gray';
                 button3.style = 'background: yellow';
                 break;
             case 3:
+                button0.style = 'background: gray';
+                button1.style = 'background: gray';
+                button2.style = 'background: gray';
                 button3.style = 'background: green';
     }
 
         wrapper.appendChild(row);
+
 })
+
+    let buttons = document.querySelectorAll('.bldgBtn');
+    buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            let id = btn.id.slice(0,-1);
+            let lvl = btn.id.slice(-1);
+            let e = buildings.findIndex((e) => e.id == id);
+            showUpgrade(buildings[e],lvl);
+        })
+    })
+
 }
+
+
 
 export { renderBuildings }
 
