@@ -254,15 +254,35 @@ function diBox() {
     spBuy.textContent = '+';
     spBuy.style = 'border-radius: 50%; font-size: 12px; align-self: end; margin-left: 4px'
     spBuy.addEventListener('click', () => {
-        if(settlement.settlementPoints > 1) {
-        settlementPoints(-2);
-        diCurrent(1);
-        renderAll();
+        if(settlement.type == '' || settlement.type == 'Survivalist') {
+            if(settlement.settlementPoints > 1) {
+                settlementPoints(-2);
+                diCurrent(1);
+                renderAll();
+                }
+        } else if(settlement.type == 'Fortified') {
+            if(settlement.settlementPoints > 0) {
+                settlementPoints(-1);
+                diCurrent(1);
+                renderAll();
+                }
+        } else if(settlement.type == 'Mercantile') {
+            if(settlement.settlementPoints > 2) {
+                settlementPoints(-3);
+                diCurrent(1);
+                renderAll();
+                }
         }
     })
 
     let toolTip = document.createElement('span');
-    toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Defensive Infrastructure';
+    if(settlement.type == '' || settlement.type == 'Survivalist') {
+        toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Defensive Infrastructure';
+    } else if(settlement.type == 'Fortified') {
+        toolTip.textContent = "Spend 1 Settlement Point to gain 1 Defensive Infrastructure";
+    } else if(settlement.type == 'Mercantile') {
+        toolTip.textContent = 'Spend 3 Settlement Points to gain 1 Defensive Infrastructure';
+    }
     toolTip.classList.add('tooltiptext');
     spBuy.appendChild(toolTip);
     
@@ -314,15 +334,27 @@ function intelBox() {
     spBuy.textContent = '+';
     spBuy.style = 'border-radius: 50%; font-size: 12px; align-self: end; margin-left: 4px'
     spBuy.addEventListener('click', () => {
-        if(settlement.settlementPoints > 1) {
-        settlementPoints(-2);
-        intelCurrent(1);
-        renderAll();
+        if(settlement.type != 'Fortified') {
+            if(settlement.settlementPoints > 1) {
+                settlementPoints(-2);
+                intelCurrent(1);
+                renderAll();
+                }
+        } else {
+            if(settlement.settlementPoints > 0) {
+                settlementPoints(-1);
+                intelCurrent(1);
+                renderAll();
+                }
         }
     })
 
     let toolTip = document.createElement('span');
-    toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Intelligence';
+    if(settlement.type != 'Fortified') {
+        toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Intelligence';
+    } else {
+        toolTip.textContent = 'Spend 1 Settlement Point to gain 1 Intelligence';
+    }
     toolTip.classList.add('tooltiptext');
     spBuy.appendChild(toolTip);
     
@@ -374,15 +406,27 @@ function garBox() {
     spBuy.textContent = '+';
     spBuy.style = 'border-radius: 50%; font-size: 12px; align-self: end; margin-left: 4px'
     spBuy.addEventListener('click', () => {
-        if(settlement.settlementPoints > 1) {
-        settlementPoints(-3);
-        garCurrent(1);
-        renderAll();
+        if(settlement.type != 'Fortified') {
+            if(settlement.settlementPoints > 2) {
+                settlementPoints(-3);
+                garCurrent(1);
+                renderAll();
+                }
+        } else {
+            if(settlement.settlementPoints > 1) {
+                settlementPoints(-2);
+                garCurrent(1);
+                renderAll();
+                }
         }
     })
 
     let toolTip = document.createElement('span');
-    toolTip.textContent = 'Spend 3 Settlement Points to gain 1 Garrison';
+    if(settlement.type != 'Fortified') {
+        toolTip.textContent = 'Spend 3 Settlement Points to gain 1 Garrison';
+    } else {
+        toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Garrison';
+    }
     toolTip.classList.add('tooltiptext');
     spBuy.appendChild(toolTip);
     

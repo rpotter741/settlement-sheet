@@ -331,15 +331,35 @@ function tradeBox() {
     spBuy.textContent = '+';
     spBuy.style = 'border-radius: 50%; font-size: 12px; align-self: end; margin-left: 4px'
     spBuy.addEventListener('click', () => {
-        if(settlement.settlementPoints > 1) {
-        settlementPoints(-2);
-        tradeCurrent(1);
-        renderAll();
+        if(settlement.type == '' || settlement.type == 'Fortified') {
+            if(settlement.settlementPoints > 1) {
+                settlementPoints(-2);
+                tradeCurrent(1);
+                renderAll();
+                }
+        } else if(settlement.type == 'Survivalist') {
+            if(settlement.settlementPoints > 2) {
+                settlementPoints(-3);
+                tradeCurrent(1);
+                renderAll();
+                }
+        } else if(settlement.type == 'Mercantile') {
+            if(settlement.settlementPoints > 0) {
+                settlementPoints(-1);
+                tradeCurrent(1);
+                renderAll();
+                }
         }
     })
 
     let toolTip = document.createElement('span');
-    toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Trade';
+    if(settlement.type == '' || settlement.type == 'Fortified') {
+        toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Trade';
+    } else if(settlement.type == 'Survivalist') {
+        toolTip.textContent = 'Spend 3 Settlement Points to gain 1 Trade';
+    } else if(settlement.type == 'Mercantile') {
+        toolTip.textContent = 'Spend 1 Settlement Point to gain 1 Trade';
+    }
     toolTip.classList.add('tooltiptext');
     spBuy.appendChild(toolTip);
     
@@ -390,15 +410,27 @@ function prodBox() {
     spBuy.textContent = '+';
     spBuy.style = 'border-radius: 50%; font-size: 12px; align-self: end; margin-left: 4px'
     spBuy.addEventListener('click', () => {
-        if(settlement.settlementPoints > 1) {
-        settlementPoints(-2);
-        prodCurrent(1);
-        renderAll();
+        if(settlement.type != 'Survivalist') {
+            if(settlement.settlementPoints > 1) {
+                settlementPoints(-2);
+                prodCurrent(1);
+                renderAll();
+                }
+        } else {
+            if(settlement.settlementPoints > 2) {
+                settlementPoints(-3);
+                prodCurrent(1);
+                renderAll();
+                }
         }
     })
 
     let toolTip = document.createElement('span');
-    toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Productivity';
+    if(settlement.type != 'Survivalist') {
+        toolTip.textContent = 'Spend 2 Settlement Points to gain 1 Productivity';
+    } else {
+        toolTip.textContent = 'Spend 3 Settlement Points to gain 1 Productivity';
+    }
     toolTip.classList.add('tooltiptext');
     spBuy.appendChild(toolTip);
     
