@@ -1,15 +1,22 @@
-import { economy, economyRating, prodBox, tradeBox, tradeModifier } from "./economyStats";
+import { setBuildings } from "./buildingsStats";
+import { setCount } from "./compileEvent";
+import { economy, economyRating, prodBox, setEconomy, tradeBox, tradeModifier } from "./economyStats";
 import pageLoad from "./pageload";
-import { projectBoxRender } from "./projectBoxRender";
+import { projectBoxRender, setProjects } from "./projectBoxRender";
 import renderActionsArea from "./renderActionsArea";
+import { setDeployed } from "./renderDeployed";
+import { setNotes } from "./renderNotes";
 import renderTroops from "./renderTroops";
-import { renderUpgrades } from "./renderUpgrades";
+import { renderUpgrades, setNonselectedUpgrades, setSelectedLevels, setSelectedUpgrades } from "./renderUpgrades";
 
-import { diBox, garBox, garrisonModifier, intelBox, safety, safetyRating } from "./safetyStats";
-import { healthPercent, levelUp, nextWeek, settlement, vaultAdd } from "./settlementStats";
+import { diBox, garBox, garrisonModifier, intelBox, safety, safetyRating, setSafety } from "./safetyStats";
+import { createNewSettlement, swapButtonRender } from "./settlementManager";
+import { healthPercent, levelUp, nextWeek, setSettlement, settlement, vaultAdd } from "./settlementStats";
 import { shopWindow } from "./shopWindow";
-import { foodBox, medBox, suppliesBox, suppliesModifier, survival, survivalRating } from "./survivalStats";
+import { setStorage, settlementList } from "./storage";
+import { foodBox, medBox, setSurvival, suppliesBox, suppliesModifier, survival, survivalRating } from "./survivalStats";
 import taxRender from "./taxRender";
+import { setChangeLog, setWeekLog } from "./weekLog";
 
 function renderNameLevel() {
     let wrapper = document.querySelector('#NameLevel')
@@ -456,12 +463,78 @@ function renderScoreBonus() {
     wrapper.appendChild(modRow);
 }
 
+function resetSettlement() {
+    let reset = document.createElement('button');
+reset.textContent = 'Reset Settlement';
+reset.style = 'position: absolute; top: 0; left: calc(50%); border-radius: 1rem; background-color: red; color: white'
+reset.addEventListener('click', () => {
+    let answer = confirm('Clicking this button resets the settlement to default. Are you sure you want to do this? It cannot be reversed.')
+    if(answer == true) {
+       let answer2 = confirm("You're serious, yeah? IT CANNOT BE REVERSED AND PUTS EVERYTHING BACK TO BASIC LEVEL 3")
+       if(answer2 == true) {
+        window.removeEventListener('beforeunload',setStorage)
+        localStorage.clear();
+        refreshPage();
+        location.reload();
+       }
+    }
+})
+
+let body = document.querySelector('body');
+body.appendChild(reset);
+}
+
 function refreshPage() {
     pageLoad();
     renderAll();
     taxRender();
     shopWindow();
     projectBoxRender();
+    swapButtonRender();
+    resetSettlement();
+    deleteSettlement();
+}
+
+function deleteSettlement() {
+    let wrapper = document.querySelector('body');
+
+    let removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Delete Settlement';
+    removeBtn.style = 'background: black; color: red; position: absolute; top: 0; right: 0; border-radius: 1rem'
+    removeBtn.addEventListener('click', () => {
+        let answer = confirm('Are you sure you want to delete this settlement? This is IRREVERSIBLE')
+
+        if(answer == true) {
+            delete settlementList[settlement.name];
+            
+            if(Object.keys(settlementList).length == 0) {
+                createNewSettlement();
+            }
+
+            let item = Object.keys(settlementList)[0];
+
+            let set = settlementList[item];
+
+            setSettlement(set["Settlement Data"]);
+            setSurvival(set["Survival Data"]);
+            setSafety(set["Safety Data"]);
+            setEconomy(set["Economy Data"]);
+            setBuildings(set["Building Data"]);
+            setProjects(set["Project Data"]);
+            setDeployed(set["Deployed Data"]);
+            setNotes(set["Notes Data"]);
+            setSelectedUpgrades(set["Selected Upgrades Data"]);
+            setSelectedLevels(set["Selected Levels Data"]);
+            setNonselectedUpgrades(set["Nonselected Upgrades Data"]);
+            setCount(set["Project Count Data"]);
+            setWeekLog(set["Week Log Data"]);
+            setChangeLog(set["Change Log Data"]);
+            document.querySelector('body').innerHTML = '';
+            refreshPage();
+        }
+    })
+
+    wrapper.appendChild(removeBtn);
 }
 
 function renderAll() {

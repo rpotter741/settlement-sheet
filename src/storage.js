@@ -37,27 +37,39 @@ function storageAvailable(type) {
     }
   }
 
-  function setStorage() {
-    localStorage.setItem('settlementData', JSON.stringify(settlement));
-    localStorage.setItem('survivalData', JSON.stringify(survival));
-    localStorage.setItem('safetyData', JSON.stringify(safety));
-    localStorage.setItem('economyData', JSON.stringify(economy));
-    localStorage.setItem('buildingData', JSON.stringify(buildings));
-    localStorage.setItem('projectArray', JSON.stringify(projectArray));
-    localStorage.setItem('deployedArray', JSON.stringify(deployedArray));
-    localStorage.setItem('playerNotes', JSON.stringify(userNotes));
-    localStorage.setItem('selectedUpgrades', JSON.stringify(selectedUpgrades));
-    localStorage.setItem('selectedLevels', JSON.stringify(selectedLevels));
-    localStorage.setItem('nonselectedUpgrades', JSON.stringify(nonselectedUpgrades));
-    localStorage.setItem('projectCount', JSON.stringify(count));
-    localStorage.setItem('weekLog', JSON.stringify(weekLog));
-    localStorage.setItem('changeLog', JSON.stringify(changeLog));
+let settlementList = {};
 
+function checkSettlement() {
+  if(Object.keys(settlementList).length < 1) {
+    settlementList[settlement.name] = {
+      "Settlement Data": settlement,
+      "Survival Data": survival,
+      "Safety Data": safety,
+      "Economy Data": economy,
+      "Building Data": buildings,
+      "Project Data": projectArray,
+      "Deployed Data": deployedArray,
+      "Notes Data": userNotes,
+      "Selected Upgrades Data": selectedUpgrades,
+      "Selected Levels Data": selectedLevels,
+      "Nonselected Upgrades Data": nonselectedUpgrades,
+      "Project Count Data": count,
+      "Week Log Data": weekLog,
+      "Change Log Data": changeLog
+    }
+  }
+}
+
+  function setStorage() {
+    checkSettlement();
+    localStorage.setItem('settlementList', JSON.stringify(settlementList))
+    console.log(settlementList);
+    console.log(settlement)
 }
 
   function checkStorage() {
     if (storageAvailable("localStorage")) {
-        if(!localStorage.getItem('settlementData')) {
+        if(!localStorage.getItem('settlementList')) {
             setStorage();
         } else {
             loadStorage();
@@ -68,49 +80,31 @@ function storageAvailable(type) {
   }
 
   function loadStorage() {
-    let settlementData = JSON.parse(localStorage.getItem('settlementData'));
-    setSettlement(settlementData);
+    let settlementListData = JSON.parse(localStorage.getItem('settlementList'));
+    settlementList = settlementListData;
 
-    let survivalData = JSON.parse(localStorage.getItem('survivalData'));
-    setSurvival(survivalData);
+    console.log(settlementListData)
 
-    let safetyData = JSON.parse(localStorage.getItem('safetyData'));
-    setSafety(safetyData);
+    let name = Object.keys(settlementList)[0];
 
-    let economyData = JSON.parse(localStorage.getItem('economyData'));
-    setEconomy(economyData);
+    let set = settlementList[name]    
 
-    let buildingData = JSON.parse(localStorage.getItem('buildingData'));
-    setBuildings(buildingData);
-
-    let projectData = JSON.parse(localStorage.getItem('projectArray'));
-    setProjects(projectData);
-
-    let deployedData = JSON.parse(localStorage.getItem('deployedArray'));
-    setDeployed(deployedData);
-
-    let notesData = JSON.parse(localStorage.getItem('playerNotes'));
-    setNotes(notesData);
-
-    let selectedData = JSON.parse(localStorage.getItem('selectedUpgrades'));;
-    setSelectedUpgrades(selectedData);
-
-    let selectedLevelsData = JSON.parse(localStorage.getItem('selectedLevels'));
-    setSelectedLevels(selectedLevelsData);
-
-    let nonselectedData = JSON.parse(localStorage.getItem('nonselectedUpgrades'));
-    setNonselectedUpgrades(nonselectedData);
-
-    let countData = JSON.parse(localStorage.getItem('projectCount'));
-    setCount(countData);
-
-    let weekData = JSON.parse(localStorage.getItem('weekLog'));
-    setWeekLog(weekData);
-
-    let changeData = JSON.parse(localStorage.getItem('changeLog'));;
-    setChangeLog(changeData);
+    setSettlement(set["Settlement Data"]);
+    setSurvival(set["Survival Data"]);
+    setSafety(set["Safety Data"]);
+    setEconomy(set["Economy Data"]);
+    setBuildings(set["Building Data"]);
+    setProjects(set["Project Data"]);
+    setDeployed(set["Deployed Data"]);
+    setNotes(set["Notes Data"]);
+    setSelectedUpgrades(set["Selected Upgrades Data"]);
+    setSelectedLevels(set["Selected Levels Data"]);
+    setNonselectedUpgrades(set["Nonselected Upgrades Data"]);
+    setCount(set["Project Count Data"]);
+    setWeekLog(set["Week Log Data"]);
+    setChangeLog(set["Change Log Data"]);
 
     
   }
 
-  export { checkStorage, setStorage }
+  export { checkStorage, setStorage, settlementList }
