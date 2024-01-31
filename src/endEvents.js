@@ -188,6 +188,7 @@ function fixPassiveLoss(item, val) {
         case 'maximum health':
             maxHealth(-val);
             health(val);
+            health(val);
             break;
         case 'level':
             levelUp(-val);
