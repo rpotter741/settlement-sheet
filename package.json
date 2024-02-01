@@ -7,13 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
-    "build": "webpack"
+    "build": "webpack",
+    "publish": "git subtree push --prefix dist origin gh-pages"
   },
   "keywords": [],
-  "author": "",
+  "author": "RobbiePottsDM",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.9.0",
+    "favicons": "^7.1.5",
+    "favicons-webpack-plugin": "^6.0.1",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.6.0",
     "style-loader": "^3.3.4",
