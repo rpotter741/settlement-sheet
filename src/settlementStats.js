@@ -20,7 +20,10 @@ let settlement = {
     type: 0,
     vault: 385,
 
+
 }
+
+
 
 function setSettlement(data) {
     settlement = data;

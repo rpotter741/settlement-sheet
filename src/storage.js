@@ -39,6 +39,25 @@ function storageAvailable(type) {
 
 let settlementList = {};
 
+function saveSettlement(data) {
+  settlementList[data] = {
+      "Settlement Data": settlement,
+      "Survival Data": survival,
+      "Safety Data": safety,
+      "Economy Data": economy,
+      "Building Data": buildings,
+      "Project Data": projectArray,
+      "Deployed Data": deployedArray,
+      "Notes Data": userNotes,
+      "Selected Upgrades Data": selectedUpgrades,
+      "Selected Levels Data": selectedLevels,
+      "Nonselected Upgrades Data": nonselectedUpgrades,
+      "Project Count Data": count,
+      "Week Log Data": weekLog,
+      "Change Log Data": changeLog
+  }
+    }
+
 function checkSettlement() {
   if(Object.keys(settlementList).length < 1) {
     settlementList[settlement.name] = {
@@ -63,8 +82,6 @@ function checkSettlement() {
   function setStorage() {
     checkSettlement();
     localStorage.setItem('settlementList', JSON.stringify(settlementList))
-    console.log(settlementList);
-    console.log(settlement)
 }
 
   function checkStorage() {
@@ -82,8 +99,6 @@ function checkSettlement() {
   function loadStorage() {
     let settlementListData = JSON.parse(localStorage.getItem('settlementList'));
     settlementList = settlementListData;
-
-    console.log(settlementListData)
 
     let name = Object.keys(settlementList)[0];
 
@@ -107,4 +122,4 @@ function checkSettlement() {
     
   }
 
-  export { checkStorage, setStorage, settlementList }
+  export { checkStorage, setStorage, settlementList, saveSettlement }

@@ -1,6 +1,12 @@
+import { changeNotes, settlement } from "./settlementStats";
+import { saveSettlement, settlementList } from "./storage";
 import { renderWeeks } from "./weekLog";
 
+
+let userNotes = '';
+
 function renderNotes() {
+
     let wrapper = document.querySelector('#contentArea'); 
     wrapper.innerHTML = '';
 
@@ -10,26 +16,31 @@ function renderNotes() {
 
     wrapper.appendChild(header);
 
+
+
     let notes = document.createElement('textarea');
     notes.style = ' overflow-y: scroll; font-family: "monospace";'
     notes.placeholder = "Start writing some notes..."
     notes.value = userNotes;
+    
     notes.addEventListener('change', () => {
+
+        saveSettlement(settlement.name)
         userNotes = notes.value;
+
     })
 
     wrapper.appendChild(notes);
 
     notes.scrollTop = 9999999;
 
-    console.log(userNotes);
+
 
 }
 
-let userNotes = '';
 
 function setNotes(data) {
     userNotes = data;
 }
 
-export { renderNotes, userNotes, setNotes }
+export { renderNotes, setNotes, userNotes}
