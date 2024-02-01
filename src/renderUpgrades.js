@@ -124,7 +124,7 @@ function showUpgradeDetails(level, id) {
     for(let i = 0; i < upg.content.length; i++) {
         let text = document.createElement('p');
         text.textContent = upg.content[i];
-        text.style = 'font-size: 18px; padding: 0 2rem; box-sizing: border-box'
+        text.style = 'font-size: 18px; padding: 0 2rem; box-sizing: border-box; font-family: "monospace";'
         text.classList.add('text-center');
         wrapper.appendChild(text);
     }

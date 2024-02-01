@@ -33,6 +33,10 @@ function openSettlementSwap() {
     let overlay = document.createElement('div');
     overlay.id = 'changeOverlay'
     overlay.style = 'background: rgba(0,0,0,.5); height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; z-index: 1'
+    overlay.addEventListener('click', () => {
+        document.querySelector('#changeOverlay').remove();
+        document.querySelector('#changeBox').remove();
+    })
     wrapper.appendChild(overlay);
 
     let box = document.createElement('div');
