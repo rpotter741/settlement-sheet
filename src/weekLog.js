@@ -437,7 +437,6 @@ function renderProjSummary(week, proj) {
     let box3 = document.createElement('div');
     box3.classList.add('flexCol','center','gap');
 
-    if((proj.length != 0)) {
     for(let i = 0; i < proj.impactItems.length; i++) {
         let iRow = document.createElement('div');
         iRow.classList.add('flexRow','center','gap');
@@ -452,7 +451,7 @@ function renderProjSummary(week, proj) {
 
         box3.appendChild(iRow);
 
-    }
+    
 }
 
     row.appendChild(box3);
@@ -532,7 +531,7 @@ function renderProjSummaryEnd(week, proj) {
     let box3 = document.createElement('div');
     box3.classList.add('flexCol','center','gap');
 
-    if(proj.length != 0) {
+
     for(let i = 0; i < proj.impactItems.length; i++) {
         let iRow = document.createElement('div');
         iRow.classList.add('flexRow','center','gap');
@@ -547,7 +546,7 @@ function renderProjSummaryEnd(week, proj) {
 
         box3.appendChild(iRow);
 
-    }
+    
 }
 
     row.appendChild(box3);
@@ -571,8 +570,8 @@ function renderProjSummaryEnd(week, proj) {
     return row;
 
 
+    }
 
-}
 
 function addLog(value, name) {
          

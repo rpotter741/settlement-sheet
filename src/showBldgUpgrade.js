@@ -229,7 +229,7 @@ function confirmUpgrade(e, upg) {
     renderAll();
     taxRender();
 
-    let proj = [];
+    let proj = {};
 
     proj.name = upg.name;
 
@@ -239,9 +239,9 @@ function confirmUpgrade(e, upg) {
 
     proj.start = settlement.weeksPassed;
 
-    proj.end = 0;
+    proj.end = -1;
 
-    proj.hide = true;
+   
 
     proj.type = 'building';
 
@@ -255,7 +255,13 @@ function confirmUpgrade(e, upg) {
 
     proj.impactItems = [];
 
+    proj.impactVals = [];
 
+    proj.costItems = [],
+
+    proj.costVals = [],
+
+    proj.hide = true;
 
     countUp();
 
