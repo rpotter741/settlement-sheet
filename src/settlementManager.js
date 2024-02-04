@@ -195,6 +195,8 @@ function settlementChangeArea() {
             setCount(set["Project Count Data"]);
             setWeekLog(set["Week Log Data"]);
             setChangeLog(set["Change Log Data"]);
+            console.log(set["Week Log Data"]);
+            console.log(set["Change Log Data"]);
             document.querySelector('body').innerHTML = '';
             refreshPage();
             loadOption = 'none';

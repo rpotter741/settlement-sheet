@@ -1,4 +1,4 @@
-import { renderNotes } from "./renderNotes";
+
 import { settlement } from "./settlementStats";
 
 let weekLog = {};
