@@ -1,13 +1,9 @@
-import './style.css'
-import { refreshPage, renderAll } from "./pageRenders";
+import "./style.css";
+import { refreshPage } from "./pageRenders";
 import { checkStorage, setStorage } from "./storage";
-import { weekLog } from './weekLog';
-import { swapButtonRender } from './settlementManager';
 
-///localStorage.clear()
+/// localStorage.clear()
 checkStorage();
 refreshPage();
 
-
-window.addEventListener('beforeunload', setStorage)
-
+window.addEventListener("beforeunload", setStorage);
