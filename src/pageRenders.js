@@ -5,9 +5,10 @@ import renderActionsArea from "./renderActionsArea";
 import renderTroops from "./renderTroops";
 import { renderUpgrades } from "./renderUpgrades";
 import { diBox, garBox, garrisonModifier, intelBox, safety, safetyRating } from "./safetyStats";
-import { swapButtonRender } from "./settlementManager";
+import { settlementList, swapButtonRender } from "./settlementManager";
 import { healthPercent, levelUp, nextWeek, settlement, vaultAdd } from "./settlementStats";
 import { shopWindow } from "./shopWindow";
+import { saveSettlement } from "./storage";
 import { foodBox, medBox, suppliesBox, suppliesModifier, survival, survivalRating } from "./survivalStats";
 import taxRender from "./taxRender";
 
@@ -25,7 +26,11 @@ function renderNameLevel() {
     name.value = settlement.name;
     name.id = 'settlementName';
     name.addEventListener('change', () => {
+        let holdover = settlement.name;
         settlement.name = name.value;
+        saveSettlement(settlement.name);
+        delete settlementList[holdover];
+        
     })
 
     nameBox.appendChild(name);
@@ -481,9 +486,6 @@ function renderAll() {
     survivalRating();
     safetyRating();
     renderEventModBox();
-    if(document.querySelector('#projectBox') != undefined) {
-        projectBoxRender();
-    }
 
     if(document.querySelector('#a4c1') != undefined) {
         renderUpgrades();
@@ -491,6 +493,10 @@ function renderAll() {
 
     if(document.querySelector('#troopScreen') != undefined) {
         renderTroops();
+    }
+
+    if(document.querySelector('#projectBox') != undefined) {
+        projectBoxRender();
     }
     
 }

@@ -178,9 +178,9 @@ function maxHealth(i) {
 
 function recoverHealth() {
   let i = buildings[8].level;
-  if (settlement.drought == true) {
+  if (settlement.drought === true) {
     return;
-  } else {
+  }  
     switch (i) {
       case 0:
       case 0.5:
@@ -197,8 +197,11 @@ function recoverHealth() {
       case 3:
         health(10);
         break;
+      default:
+        health(0);
+        break;
     }
-  }
+  
 
   if (
     settlement.currentHealth >

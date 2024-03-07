@@ -113,7 +113,7 @@ function settlementChangeArea() {
     let town = settlementList[item];
 
     let option = document.createElement("option");
-    option.value = item;
+    option.value = town["Settlement Data"].name;
     option.label = town["Settlement Data"].name;
     selector.appendChild(option);
   });
@@ -195,8 +195,6 @@ function settlementChangeArea() {
     setCount(set["Project Count Data"]);
     setWeekLog(set["Week Log Data"]);
     setChangeLog(set["Change Log Data"]);
-    console.log(set["Week Log Data"]);
-    console.log(set["Change Log Data"]);
     document.querySelector("body").innerHTML = "";
     refreshPage();
     loadOption = "none";
@@ -266,27 +264,17 @@ function settlementChangeArea() {
   selector.addEventListener("change", () => {
     loadOption = selector.value;
 
-    if (
-      selector.value != "create" &&
-      selector.value != "" &&
-      selector.value != settlement.name
-    ) {
-      settlementChangeArea();
-      buttonRow.appendChild(switchBox);
-      buttonRow.appendChild(resetBox);
-      buttonRow.appendChild(deleteBox);
-      displayArea.appendChild(buttonRow);
-    } else if (selector.value == settlement.name) {
+    if (selector.value === settlement.name) {
       settlementChangeArea();
       buttonRow.appendChild(resetBox);
       buttonRow.appendChild(deleteBox);
       displayArea.appendChild(buttonRow);
-    } else if (selector.value == "create") {
+    } else if (selector.value === "create") {
       settlementChangeArea();
       buttonRow.appendChild(createBox);
       displayArea.appendChild(inputRow);
       displayArea.appendChild(buttonRow);
-    } else if (selector.value == "none") {
+    } else if (selector.value === "none") {
       settlementChangeArea();
     }
   });
@@ -1517,4 +1505,4 @@ function resetSettlement(inputName) {
   };
 }
 
-export { swapButtonRender, createNewSettlement };
+export { settlementList, swapButtonRender, createNewSettlement };
